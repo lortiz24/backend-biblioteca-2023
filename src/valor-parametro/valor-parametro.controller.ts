@@ -4,7 +4,9 @@ import { CreateValorParametroDto } from './dto/create-valor-parametro.dto';
 import { UpdateValorParametroDto } from './dto/update-valor-parametro.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ParametrosService } from 'src/parametros/parametros.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('ValorParametro')
 @Controller('valor-parametro')
 export class ValorParametroController {
   constructor(
