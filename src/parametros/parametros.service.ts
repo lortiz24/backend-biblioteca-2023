@@ -39,30 +39,52 @@ export class ParametrosService {
   async findAll(paginationArgs: PaginationDto) {
     try {
       const { limit, offset } = paginationArgs;
-      console.log({ limit, offset })
       const parametros = await this.parametroRepository.find({
-       
+        take: limit,
+        skip: offset,
+        where: {
+          status: 'active'
+        }
       });
+      // const parametrosAll = parametros.map(parametro => {
+      //   return { ...parametro, valoresParametros: [] }
+      // })
       return parametros;
+
     } catch (error) {
       this.HelperServices.handleDbExceptions(error);
     }
   }
 
-  async findOne(term: string) {
+  async findOne(term: string): Promise<Parametro> {
     try {
       let parametro: Parametro;
 
       if (isUUID(term)) {
-        parametro = await this.parametroRepository.findOneBy({ id: term });
+        parametro = await this.parametroRepository.findOne({
+          relations: {
+            valoresParametros: false
+          },
+          where: {
+            id: term
+          }
+        });
       } else {
-        const queryBuilder = this.parametroRepository.createQueryBuilder('parm')
-        parametro = await queryBuilder
+        const queryBuilderParametro = this.parametroRepository.createQueryBuilder('parm')
+        parametro = await queryBuilderParametro
           .where('UPPER(parm.nombre) =:nombre', {
             nombre: term.toUpperCase(),
           })
           .leftJoinAndSelect('parm.valoresParametros', 'valorP')
           .getOne();
+        //TODO: DEVOLVER VALORES PARAMETRO O NO DEPENDIENDO PETICION DE CLIENTE
+        // const queryBuilderValorParametro = this.valorParametroRepository.createQueryBuilder('vparm')
+        // const valorParametro = await queryBuilderValorParametro
+        //   .where('vparm.parametroId =:idParametro', {
+        //     idParametro: parametro.id
+        //   })
+        //   .getMany();
+        // parametro.valoresParametros = valorParametro
       }
 
       if (!parametro) throw new NotFoundException('No se encontraron resultados');
@@ -76,10 +98,9 @@ export class ParametrosService {
 
   async update(id: string, { valoresParametro, ...updateParametroInput }: UpdateParametroDto) {
     try {
-      const parametro = await this.parametroRepository.preload(updateParametroInput)
+      const parametro = await this.parametroRepository.preload({ id, ...updateParametroInput })
 
       if (!parametro) throw new NotFoundException(`Parametro with id ${id} not found`)
-      //todo: update valores parametro
       if (valoresParametro.length > 0) {
         parametro.valoresParametros = [...parametro.valoresParametros, ...valoresParametro.map((valorParametro) => this.valorParametroRepository.create({ nombre: valorParametro }))]
       }
@@ -96,6 +117,29 @@ export class ParametrosService {
 
       await this.parametroRepository.remove(parametro)
       parametro.id = id
+      return parametro;
+    } catch (error) {
+      this.HelperServices.handleDbExceptions(error)
+    }
+  }
+
+  async inactive(id: string) {
+    try {
+      //TODO: INACTIVE VALORES-PARAMETRO WHEN PARAMETRO IS INACTIVE
+      const parametro = await this.findOne(id);
+      parametro.status = 'inactive';
+      await this.parametroRepository.save(parametro)
+      return parametro;
+    } catch (error) {
+      this.HelperServices.handleDbExceptions(error)
+    }
+  }
+  async active(id: string) {
+    try {
+      //TODO: ACTIVE VALORES-PARAMETRO WHEN PARAMETRO IS ACTIVE
+      const parametro = await this.findOne(id);
+      parametro.status = 'active';
+      await this.parametroRepository.save(parametro)
       return parametro;
     } catch (error) {
       this.HelperServices.handleDbExceptions(error)

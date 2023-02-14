@@ -1,4 +1,4 @@
-import { IsOptional, IsString, MinLength } from "class-validator";
+import { IsArray, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreateParametroDto {
 
@@ -7,5 +7,15 @@ export class CreateParametroDto {
     nombre: string;
 
     @IsOptional()
-    valoresParametro?: string[];
+    @MinLength(1)
+    descripcion: string;
+
+    @IsString({ each: true })
+    @IsArray()
+    @IsOptional()
+    @MinLength(1,{each:true})
+    valoresParametro?: string[] = [];
+
+    @IsOptional()
+    status?: string;
 }

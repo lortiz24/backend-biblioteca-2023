@@ -1,7 +1,7 @@
 import { Parametro } from "src/parametros/entities/parametro.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: 'parametros' })
+@Entity({ name: 'valor_parametros' })
 export class ValorParametro {
     @PrimaryGeneratedColumn('uuid')
     id: string;

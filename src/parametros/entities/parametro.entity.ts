@@ -9,13 +9,21 @@ export class Parametro {
     @Column('varchar', { unique: true })
     nombre: string;
 
+    @Column('varchar', { nullable: true })
+    descripcion: string;
+
+    @Column('varchar', { nullable: false, default: 'active' })
+    status: string;
+
     @OneToMany(
         () => ValorParametro,
         (valorParametro) => valorParametro.parametro,
-        { cascade: true, eager: true }
+        { cascade: true }
     )
     valoresParametros?: ValorParametro[]
 
+
+    //------------------------------Befores----------------------------------
     @BeforeInsert()
     nombreToLowerCaseCreate() {
         this.nombre = this.nombre.toLowerCase()
