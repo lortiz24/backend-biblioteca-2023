@@ -1,26 +1,105 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException, Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { isUUID } from 'class-validator';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { HelperServices } from 'src/common/helpers/handled-error.helper';
+import { ValorParametro } from 'src/valor-parametro/entities/valor-parametro.entity';
+import { Repository } from 'typeorm';
 import { CreateParametroDto } from './dto/create-parametro.dto';
 import { UpdateParametroDto } from './dto/update-parametro.dto';
+import { Parametro } from './entities/parametro.entity';
 
 @Injectable()
 export class ParametrosService {
-  create(createParametroDto: CreateParametroDto) {
-    return 'This action adds a new parametro';
+  private readonly logger = new Logger('ParametrosService')
+  private readonly HelperServices = new HelperServices('ParametrosService')
+
+  constructor(
+    @InjectRepository(Parametro)
+    private readonly parametroRepository: Repository<Parametro>,
+    @InjectRepository(ValorParametro)
+    private readonly valorParametroRepository: Repository<ValorParametro>
+  ) { }
+  async create({ valoresParametro, ...createParametroInput }: CreateParametroDto): Promise<Parametro> {
+
+    try {
+      const newParametro = this.parametroRepository.create({
+        ...createParametroInput,
+        valoresParametros: valoresParametro?.map((valorParametro) => this.valorParametroRepository.create({ nombre: valorParametro }))
+      })
+
+      await this.parametroRepository.save(newParametro)
+
+      return newParametro;
+    } catch (error) {
+      this.HelperServices.handleDbExceptions(error)
+    }
   }
 
-  findAll() {
-    return `This action returns all parametros`;
+  async findAll(paginationArgs: PaginationDto) {
+    try {
+      const { limit, offset } = paginationArgs;
+      console.log({ limit, offset })
+      const parametros = await this.parametroRepository.find({
+       
+      });
+      return parametros;
+    } catch (error) {
+      this.HelperServices.handleDbExceptions(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} parametro`;
+  async findOne(term: string) {
+    try {
+      let parametro: Parametro;
+
+      if (isUUID(term)) {
+        parametro = await this.parametroRepository.findOneBy({ id: term });
+      } else {
+        const queryBuilder = this.parametroRepository.createQueryBuilder('parm')
+        parametro = await queryBuilder
+          .where('UPPER(parm.nombre) =:nombre', {
+            nombre: term.toUpperCase(),
+          })
+          .leftJoinAndSelect('parm.valoresParametros', 'valorP')
+          .getOne();
+      }
+
+      if (!parametro) throw new NotFoundException('No se encontraron resultados');
+
+      return parametro;
+    } catch (error) {
+      this.HelperServices.handleDbExceptions(error)
+    }
+
   }
 
-  update(id: number, updateParametroDto: UpdateParametroDto) {
-    return `This action updates a #${id} parametro`;
+  async update(id: string, { valoresParametro, ...updateParametroInput }: UpdateParametroDto) {
+    try {
+      const parametro = await this.parametroRepository.preload(updateParametroInput)
+
+      if (!parametro) throw new NotFoundException(`Parametro with id ${id} not found`)
+      //todo: update valores parametro
+      if (valoresParametro.length > 0) {
+        parametro.valoresParametros = [...parametro.valoresParametros, ...valoresParametro.map((valorParametro) => this.valorParametroRepository.create({ nombre: valorParametro }))]
+      }
+      const parametroUpdate = await this.parametroRepository.save(parametro);
+      return parametroUpdate;
+    } catch (error) {
+      this.HelperServices.handleDbExceptions(error)
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} parametro`;
+  async remove(id: string) {
+    try {
+      const parametro = await this.findOne(id);
+
+      await this.parametroRepository.remove(parametro)
+      parametro.id = id
+      return parametro;
+    } catch (error) {
+      this.HelperServices.handleDbExceptions(error)
+    }
   }
+
 }

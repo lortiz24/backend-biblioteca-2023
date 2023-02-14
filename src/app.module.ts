@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from './common/common.module';
 import { UsersModule } from './users/users.module';
 import { ParametrosModule } from './parametros/parametros.module';
+import { ValorParametroModule } from './valor-parametro/valor-parametro.module';
 
 @Module({
   imports: [
@@ -19,15 +20,10 @@ import { ParametrosModule } from './parametros/parametros.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-
-
     CommonModule,
-
-
-    UsersModule,
-
-
+    // UsersModule,
     ParametrosModule,
+    // ValorParametroModule,
   ],
 })
 export class AppModule {}

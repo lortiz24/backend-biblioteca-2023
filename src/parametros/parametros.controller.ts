@@ -1,11 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ParametrosService } from './parametros.service';
 import { CreateParametroDto } from './dto/create-parametro.dto';
 import { UpdateParametroDto } from './dto/update-parametro.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('parametros')
 export class ParametrosController {
-  constructor(private readonly parametrosService: ParametrosService) {}
+  constructor(
+    private readonly parametrosService: ParametrosService
+    ) { }
 
   @Post()
   create(@Body() createParametroDto: CreateParametroDto) {
@@ -13,22 +16,22 @@ export class ParametrosController {
   }
 
   @Get()
-  findAll() {
-    return this.parametrosService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.parametrosService.findAll(paginationDto);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.parametrosService.findOne(+id);
+    return this.parametrosService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateParametroDto: UpdateParametroDto) {
-    return this.parametrosService.update(+id, updateParametroDto);
+    return this.parametrosService.update(id, updateParametroDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.parametrosService.remove(+id);
+    return this.parametrosService.remove(id);
   }
 }
