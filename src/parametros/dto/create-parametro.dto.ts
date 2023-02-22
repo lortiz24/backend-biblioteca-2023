@@ -7,9 +7,18 @@ export class CreateParametroDto {
         description: 'nombre del parametro',
         uniqueItems: true
     })
+    //TODO: VALIDAR CON EXPRESION REGULAR QUE NO INGRESEN CARACTERES ESPECIALES
     @IsString()
     @MinLength(1)
     nombre: string;
+
+    @ApiProperty({
+        example: 'tipo documento',
+        description: 'El tipo de valores parametros que tendra, los valores parametros podran ser una lista de valores definidos, o un campo digitable',
+        uniqueItems: true
+    })
+    @MinLength(1)
+    type: string;
 
     @ApiProperty({
         example: 'indica el tipo de documento del usuario',

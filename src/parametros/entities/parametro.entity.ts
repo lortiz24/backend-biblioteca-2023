@@ -19,6 +19,14 @@ export class Parametro {
     })
     @Column('varchar', { unique: true })
     nombre: string;
+    
+    @ApiProperty({
+        example: 'tipo documento',
+        description: 'El tipo de valores parametros que tendra, los valores parametros podran ser una lista de valores definidos, o un campo digitable',
+        uniqueItems: true
+    })
+    @Column('varchar',)
+    type: string;
 
     @ApiProperty({
         example: 'indica el tipo de documento del usuario',
