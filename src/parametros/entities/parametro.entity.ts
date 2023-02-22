@@ -20,15 +20,20 @@ export class Parametro {
     @Column('varchar', { unique: true })
     nombre: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example: 'indica el tipo de documento del usuario',
+        description: 'Ofrece una breve descripcion del parametro',
+    })
     @Column('varchar', { nullable: true })
     descripcion: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example: 'active',
+        description: 'Indica si el parametro se encuentra activo o inactivo',
+    })
     @Column('varchar', { nullable: false, default: 'active' })
     status: string;
 
-    @ApiProperty()
     @OneToMany(
         () => ValorParametro,
         (valorParametro) => valorParametro.parametro,
