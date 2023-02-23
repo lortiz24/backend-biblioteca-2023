@@ -19,16 +19,29 @@ export class Parametro {
     })
     @Column('varchar', { unique: true })
     nombre: string;
+    
+    @ApiProperty({
+        example: 'tipo documento',
+        description: 'El tipo de valores parametros que tendra, los valores parametros podran ser una lista de valores definidos, o un campo digitable',
+        uniqueItems: true
+    })
+    @Column('varchar',)
+    type: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example: 'indica el tipo de documento del usuario',
+        description: 'Ofrece una breve descripcion del parametro',
+    })
     @Column('varchar', { nullable: true })
     descripcion: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example: 'active',
+        description: 'Indica si el parametro se encuentra activo o inactivo',
+    })
     @Column('varchar', { nullable: false, default: 'active' })
     status: string;
 
-    @ApiProperty()
     @OneToMany(
         () => ValorParametro,
         (valorParametro) => valorParametro.parametro,
