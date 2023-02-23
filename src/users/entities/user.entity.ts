@@ -27,9 +27,6 @@ export class User {
     })
 
     @Column('varchar')
-    username: string;
-
-    @Column('varchar')
     tipo_identificacion: string;
 
     @Column('varchar', { unique: true })

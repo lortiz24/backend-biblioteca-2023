@@ -9,6 +9,7 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('ValorParametro')
 @Controller('valor-parametro')
 export class ValorParametroController {
+  //todo: cambio pendiente del parametrosServices
   constructor(
     private readonly valorParametroService: ValorParametroService,
     private readonly parametroService: ParametrosService

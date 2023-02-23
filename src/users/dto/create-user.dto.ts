@@ -4,9 +4,6 @@ import { Column } from 'typeorm';
 export class CreateUserDto {
 
     @IsString()
-    username: string;
-
-    @IsString()
     email: string;
 
     @IsArray()
