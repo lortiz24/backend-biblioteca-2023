@@ -25,7 +25,6 @@ export class ValorParametroController {
     @Body() createValorParametroDto: CreateValorParametroDto,
     @Param('parametroId', ParseUUIDPipe) parametroId: string
   ) {
-    console.log(parametroId)
     const parametro = await this.parametroService.findOne(parametroId)
     return this.valorParametroService.create(parametro, createValorParametroDto);
   }
@@ -60,5 +59,32 @@ export class ValorParametroController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.valorParametroService.remove(id);
+  }
+
+
+
+
+  @ApiResponse({ status: 200, description: 'Parameter inactive correctly', type: ValorParametro })
+  @ApiResponse({ status: 400, description: 'BadRequest' })
+  @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  @Patch('/inactive/:id')
+  inactive(
+    @Param('id', ParseUUIDPipe) id: string
+  ) {
+    return this.valorParametroService.inactive(id);
+  }
+
+  @ApiResponse({ status: 200, description: 'Parameter active correctly', type: ValorParametro })
+  @ApiResponse({ status: 400, description: 'BadRequest' })
+  @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  @Patch('/active/:id')
+  active(
+    @Param('id', ParseUUIDPipe) id: string
+  ) {
+    return this.valorParametroService.active(id);
   }
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsOptional, IsString, MinLength } from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreateParametroDto {
     @ApiProperty({
@@ -8,7 +8,7 @@ export class CreateParametroDto {
         uniqueItems: true
     })
     //TODO: VALIDAR CON EXPRESION REGULAR QUE NO INGRESEN CARACTERES ESPECIALES
-    @IsString()
+    @IsNotEmpty()
     @MinLength(1)
     nombre: string;
 
@@ -17,9 +17,12 @@ export class CreateParametroDto {
         description: 'El tipo de valores parametros que tendra, los valores parametros podran ser una lista de valores definidos, o un campo digitable',
         uniqueItems: true
     })
+    @IsNotEmpty()
     @MinLength(1)
     type: string;
 
+
+    
     @ApiProperty({
         example: 'indica el tipo de documento del usuario',
         description: 'Ofrece una breve descripcion del parametro',
@@ -27,6 +30,8 @@ export class CreateParametroDto {
     @IsOptional()
     @MinLength(1)
     descripcion: string;
+
+
 
     @ApiProperty({
         example: ['tarjeta de identidad', 'cedula de ciudadania'],
@@ -37,6 +42,8 @@ export class CreateParametroDto {
     @IsOptional()
     @MinLength(1,{each:true})
     valoresParametro?: string[] = [];
+
+
 
     @ApiProperty({
         example: 'active',

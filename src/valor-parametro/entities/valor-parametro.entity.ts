@@ -21,6 +21,13 @@ export class ValorParametro {
     @Column('varchar', { unique: true })
     nombre: string;
 
+    
+    @ApiProperty({
+        example: 'active',
+        description: 'Indica si el parametro se encuentra activo o inactivo',
+    })
+    @Column('varchar', { nullable: false, default: 'active' })
+    status: string;
 
     @ManyToOne(
         () => Parametro,
@@ -30,16 +37,16 @@ export class ValorParametro {
 
 
 
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
 
 
 
-    @BeforeInsert()
+   /*  @BeforeInsert()
     nombreToLowerCaseCreate() {
         this.nombre = this.nombre.toLowerCase()
     }
     @BeforeUpdate()
     nombreToLowerCaseUpdate() {
         if (this.nombre) this.nombre = this.nombre.toLowerCase()
-    }
+    } */
 }

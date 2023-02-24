@@ -21,8 +21,8 @@ export class Parametro {
     nombre: string;
     
     @ApiProperty({
-        example: 'tipo documento',
-        description: 'El tipo de valores parametros que tendra, los valores parametros podran ser una lista de valores definidos, o un campo digitable',
+        example: 'list',
+        description: 'El tipo de dato que tendran sus valores parametros, puede ser una lista, booleanos, enteros, o un campo de texto',
         uniqueItems: true
     })
     @Column('varchar',)
@@ -51,12 +51,12 @@ export class Parametro {
 
 
     //------------------------------Befores----------------------------------
-    @BeforeInsert()
+    /* @BeforeInsert()
     nombreToLowerCaseCreate() {
         this.nombre = this.nombre.toLowerCase()
     }
     @BeforeUpdate()
     nombreToLowerCaseUpdate() {
         if (this.nombre) this.nombre = this.nombre.toLowerCase()
-    }
+    } */
 }

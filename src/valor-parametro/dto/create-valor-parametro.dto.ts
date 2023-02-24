@@ -1,9 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MinLength } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreateValorParametroDto {
     @ApiProperty()
-    @IsString()
+    @IsNotEmpty()
     @MinLength(1)
     nombre: string;
+
+    @ApiProperty({
+        example: 'active',
+        description: 'Indica si el parametro se encuentra activo o inactivo',
+    })
+    @IsOptional()
+    status?: string;
 }

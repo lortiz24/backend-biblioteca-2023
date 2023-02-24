@@ -37,7 +37,10 @@ export class ValorParametroService {
       const { limit, offset } = paginationArgs;
       return this.valorParametroRepository.find({
         take: limit,
-        skip: offset
+        skip: offset,
+        where: {
+          status: "active"
+        }
       });
     } catch (error) {
       this.HelperServices.handleDbExceptions(error)
@@ -83,5 +86,28 @@ export class ValorParametroService {
     }
   }
 
+  async inactive(id: string) {
+    try {
+      //TODO: INACTIVE VALORES-PARAMETRO WHEN PARAMETRO IS INACTIVE
+      const valorParametro = await this.findOne(id);
+      valorParametro.status = 'inactive';
+      await this.valorParametroRepository.save(valorParametro)
+      return valorParametro;
+    } catch (error) {
+      this.HelperServices.handleDbExceptions(error)
+    }
+  }
+  async active(id: string) {
+    try {
+      //TODO: ACTIVE VALORES-PARAMETRO WHEN PARAMETRO IS ACTIVE
+      const valorParametro = await this.findOne(id);
+      valorParametro.status = 'active';
+      await this.valorParametroRepository.save(valorParametro)
+      return valorParametro;
+    } catch (error) {
+      this.HelperServices.handleDbExceptions(error)
+    }
+  }
 }
+
 
