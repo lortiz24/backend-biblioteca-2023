@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreateUserParametroDto } from './dto/create-user-parametro.dto';
 import { UpdateUserParametroDto } from './dto/update-user-parametro.dto';
 
@@ -8,7 +9,7 @@ export class UserParametrosService {
     return 'This action adds a new userParametro';
   }
 
-  findAll() {
+  findAll(paginationDto: PaginationDto) {
     return `This action returns all userParametros`;
   }
 

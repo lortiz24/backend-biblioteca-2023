@@ -30,8 +30,6 @@ export class ValorParametroController {
   }
 
 
-
-
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
     return this.valorParametroService.findAll(paginationDto);

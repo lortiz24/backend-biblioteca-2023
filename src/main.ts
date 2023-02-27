@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import { ParametrosModule } from './parametros/parametros.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,11 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  const parametroDocument = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, parametroDocument,{
+    include: [ParametrosModule],
+  });
   await app.listen(3000);
 }
 bootstrap();
