@@ -5,6 +5,7 @@ import { CommonModule } from './common/common.module';
 import { UsersModule } from './users/users.module';
 import { ParametrosModule } from './parametros/parametros.module';
 import { ValorParametroModule } from './valor-parametro/valor-parametro.module';
+import { UserParametrosModule } from './user-parametros/user-parametros.module';
 
 @Module({
   imports: [
@@ -21,9 +22,10 @@ import { ValorParametroModule } from './valor-parametro/valor-parametro.module';
       synchronize: true,
     }),
     CommonModule,
-    // UsersModule,
+    UsersModule,
     ParametrosModule,
     ValorParametroModule,
+    UserParametrosModule,
   ],
 })
 export class AppModule { }

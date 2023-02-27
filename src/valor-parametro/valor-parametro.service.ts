@@ -32,7 +32,7 @@ export class ValorParametroService {
     }
   }
 
-  findAll(paginationArgs: PaginationDto) {
+  async findAll(paginationArgs: PaginationDto) {
     try {
       const { limit, offset } = paginationArgs;
       return this.valorParametroRepository.find({

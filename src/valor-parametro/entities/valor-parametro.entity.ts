@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Parametro } from "src/parametros/entities/parametro.entity";
-import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'valor_parametros' })
 export class ValorParametro {
@@ -41,12 +41,12 @@ export class ValorParametro {
 
 
 
-   /*  @BeforeInsert()
-    nombreToLowerCaseCreate() {
-        this.nombre = this.nombre.toLowerCase()
-    }
-    @BeforeUpdate()
-    nombreToLowerCaseUpdate() {
-        if (this.nombre) this.nombre = this.nombre.toLowerCase()
-    } */
+    /*  @BeforeInsert()
+     nombreToLowerCaseCreate() {
+         this.nombre = this.nombre.toLowerCase()
+     }
+     @BeforeUpdate()
+     nombreToLowerCaseUpdate() {
+         if (this.nombre) this.nombre = this.nombre.toLowerCase()
+     } */
 }

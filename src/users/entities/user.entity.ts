@@ -1,8 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { UserParametro } from 'src/user-parametros/entities/user-parametro.entity';
 @Entity({ name: 'users' })
 export class User {
 
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn('increment')
     id: string;
 
     @Column()
@@ -40,6 +41,13 @@ export class User {
 
     @Column('date')
     fecha_registro: string;
+
+    @OneToMany(
+        () => UserParametro,
+        (userParametros) => userParametros.user,
+        { cascade: true }
+    )
+    usersParametros?: UserParametro[]
 
     @Column('boolean')
     isActive: boolean;

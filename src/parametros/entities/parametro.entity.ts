@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { UserParametro } from "src/user-parametros/entities/user-parametro.entity";
 import { ValorParametro } from "src/valor-parametro/entities/valor-parametro.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: 'parametros' })
@@ -19,7 +20,7 @@ export class Parametro {
     })
     @Column('varchar', { unique: true })
     nombre: string;
-    
+
     @ApiProperty({
         example: 'list',
         description: 'El tipo de dato que tendran sus valores parametros, puede ser una lista, booleanos, enteros, o un campo de texto',
@@ -48,6 +49,12 @@ export class Parametro {
         { cascade: true }
     )
     valoresParametros?: ValorParametro[]
+    @OneToMany(
+        () => ValorParametro,
+        (valorParametro) => valorParametro.parametro,
+        { cascade: true }
+    )
+    usersParametros?: UserParametro[]
 
 
     //------------------------------Befores----------------------------------
