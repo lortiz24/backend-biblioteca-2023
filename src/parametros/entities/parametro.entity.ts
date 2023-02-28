@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { UserParametro } from "src/user-parametros/entities/user-parametro.entity";
 import { ValorParametro } from "src/valor-parametro/entities/valor-parametro.entity";
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: 'parametros' })
 export class Parametro {
 
