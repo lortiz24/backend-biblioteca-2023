@@ -4,7 +4,7 @@ import { CreateValorParametroDto } from './dto/create-valor-parametro.dto';
 import { UpdateValorParametroDto } from './dto/update-valor-parametro.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ParametrosService } from 'src/parametros/parametros.service';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ValorParametro } from './entities/valor-parametro.entity';
 
 //todo: realizar documentacion con swagger
@@ -17,10 +17,10 @@ export class ValorParametroController {
     private readonly parametroService: ParametrosService
   ) { }
 
+  @Post(':parametroId')
   @ApiResponse({ status: 201, description: 'Parametro was created successfully', type: ValorParametro })
   @ApiResponse({ status: 400, description: 'BadRequest' })
   @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
-  @Post(':parametroId')
   async create(
     @Body() createValorParametroDto: CreateValorParametroDto,
     @Param('parametroId', ParseUUIDPipe) parametroId: string
@@ -31,6 +31,9 @@ export class ValorParametroController {
 
 
   @Get()
+  @ApiOkResponse({ type: [ValorParametro] })
+  @ApiResponse({ status: 400, description: 'BadRequest' })
+  @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
   findAll(@Query() paginationDto: PaginationDto) {
     return this.valorParametroService.findAll(paginationDto);
   }

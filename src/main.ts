@@ -35,7 +35,7 @@ async function bootstrap() {
   const parametroDocument = SwaggerModule.createDocument(app, parametroConfig, {
     include: [ParametrosModule]
   });
-  SwaggerModule.setup('api/parametro', app, parametroDocument);
+  SwaggerModule.setup('api/parametros_d', app, parametroDocument);
 
 
   //----------------Valor-Parametros --------------------------------
@@ -47,7 +47,7 @@ async function bootstrap() {
   const valorParametroDocument = SwaggerModule.createDocument(app, valorParametroConfig, {
     include: [ValorParametroModule]
   });
-  SwaggerModule.setup('api/valor-parametro', app, valorParametroDocument);
+  SwaggerModule.setup('api/valor-parametro_d', app, valorParametroDocument);
 
 
   //----------------User --------------------------------
@@ -59,7 +59,7 @@ async function bootstrap() {
   const userDocument = SwaggerModule.createDocument(app, userConfig, {
     include: [UsersModule]
   });
-  SwaggerModule.setup('api/user', app, userDocument);
+  SwaggerModule.setup('api/user_d', app, userDocument);
 
 
   await app.listen(3000);

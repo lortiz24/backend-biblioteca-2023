@@ -15,3 +15,35 @@ docker-compose up -d
 ```
 
 6. Levantar: ```yarn start:dev```
+
+
+
+
+# Response Swagger
+
+@ApiOkResponse()
+@ApiCreatedResponse()
+@ApiAcceptedResponse()
+@ApiNoContentResponse()
+@ApiMovedPermanentlyResponse()
+@ApiFoundResponse()
+@ApiBadRequestResponse()
+@ApiUnauthorizedResponse()
+@ApiNotFoundResponse()
+@ApiForbiddenResponse()
+@ApiMethodNotAllowedResponse()
+@ApiNotAcceptableResponse()
+@ApiRequestTimeoutResponse()
+@ApiConflictResponse()
+@ApiPreconditionFailedResponse()
+@ApiTooManyRequestsResponse()
+@ApiGoneResponse()
+@ApiPayloadTooLargeResponse()
+@ApiUnsupportedMediaTypeResponse()
+@ApiUnprocessableEntityResponse()
+@ApiInternalServerErrorResponse()
+@ApiNotImplementedResponse()
+@ApiBadGatewayResponse()
+@ApiServiceUnavailableResponse()
+@ApiGatewayTimeoutResponse()
+@ApiDefaultResponse()
